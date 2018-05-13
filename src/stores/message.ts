@@ -1,6 +1,6 @@
 import { createStore } from './index';
 
-export const router = createStore({
+export const message = createStore({
   defaultState: {
     message: 'Hello!'
   },
@@ -15,4 +15,4 @@ export const router = createStore({
   }
 });
 
-(<any>window).router = router;
+(window as any).messageStore = message;

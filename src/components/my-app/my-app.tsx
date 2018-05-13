@@ -2,7 +2,7 @@ import { Component } from '@stencil/core';
 
 @Component({
   tag: 'my-app',
-  styleUrl: `
+  styles: `
     header {
       background: #5851ff;
       color: white;

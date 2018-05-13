@@ -1,20 +1,20 @@
 import { Component, Prop } from '@stencil/core';
 import { withSubscription } from './hoc';
-import { router } from '../../stores/router';
+import { message } from '../../stores/message';
 
 @Component({
   tag: 'hoc-test'
 })
 export class HocTest {
-  @Prop() routerData: any = null;
+  @Prop() messageData: any = null;
 
   render() {
     return (
-      <span>{this.routerData.message}</span>
+      <span>{this.messageData ? this.messageData.message : null}</span>
     );
   }
 }
 
 export const HocTestImp = withSubscription(HocTest, {
-  'routerData': router
+  'messageData': message
 });

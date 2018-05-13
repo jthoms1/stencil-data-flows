@@ -7,7 +7,7 @@ export type Listener = () => void;
 })
 export class HigherOrder {
   @Prop() stores: { [key: string]: any } = {};
-  @Prop() tagname: string;
+  @Prop() itemname: string;
 
   @State() data: any = {};
 
@@ -37,7 +37,7 @@ export class HigherOrder {
   }
 
   render() {
-    const Component = this.tagname;
+    const Component = this.itemname;
 
     if (!Component) {
       return <slot></slot>
@@ -56,7 +56,7 @@ export function withSubscription(component: any, Stores: { [key: string]: any })
   return ({ children }: { [key: string]: any}) => {
 
     return (
-      <with-subscription tagname={component.is} stores={Stores}>
+      <with-subscription itemname={component.is} stores={Stores}>
         { children }
       </with-subscription>
     )

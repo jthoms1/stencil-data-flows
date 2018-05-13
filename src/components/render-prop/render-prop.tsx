@@ -1,14 +1,13 @@
 import { Component, State, Prop } from '@stencil/core';
 
 export type Listener = () => void;
-export type keyobj = { [key: string]: any };
 
 @Component({
-  tag: 'with-subscription'
+  tag: 'render-prop'
 })
-export class HigherOrder {
+export class RenderProp {
   @Prop() stores: { [key: string]: any } = {};
-  @Prop() renderer: (props: keyobj) => any = (props: keyobj) => {
+  @Prop() renderer: (props: { [key: string]: any }) => any = (props: { [key: string]: any }) => {
     props;
     return null;
   };

@@ -7,7 +7,7 @@ import { MatchResults } from '@stencil/router';
   styleUrl: 'app-profile.css'
 })
 export class AppProfile {
-  
+
   @Prop() match: MatchResults;
 
   render() {
@@ -18,6 +18,8 @@ export class AppProfile {
             Hello! My name is {this.match.params.name}.
             My name was passed in through a route param!
           </p>
+          <hoc-test />
+          <render-prop-test />
         </div>
       );
     }

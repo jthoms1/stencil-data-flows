@@ -1,19 +1,19 @@
 import { Component, Prop } from '@stencil/core';
-import { router } from '../../stores/router';
+import { message } from '../../stores/message';
 
 @Component({
-  tag: 'hoc-test'
+  tag: 'render-prop-test'
 })
-export class HocTest {
-  @Prop() routerData: any = null;
+export class RenderPropTest {
+  @Prop() messageData: any = null;
 
   render() {
     const stores = {
-      'routerData': router
+      'messageData': message
     };
     return (
-      <with-subscription stores={stores} renderer={({ routerData }) => (
-        <span>{routerData.message}</span>
+      <render-prop stores={stores} renderer={({ messageData }) => (
+        <span>{messageData ? messageData.message : null}</span>
       )} />
     );
   }
