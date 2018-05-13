@@ -41,7 +41,6 @@ export class RenderProp {
   }
 
   render() {
-    console.log('call renderer with ', this.data);
     return this.renderer({
       ...this.data
     });
