@@ -98,74 +98,6 @@ declare global {
 declare global {
 
   namespace StencilComponents {
-    interface HocTest {
-      'messageData': any;
-    }
-  }
-
-  interface HTMLHocTestElement extends StencilComponents.HocTest, HTMLStencilElement {}
-
-  var HTMLHocTestElement: {
-    prototype: HTMLHocTestElement;
-    new (): HTMLHocTestElement;
-  };
-  interface HTMLElementTagNameMap {
-    'hoc-test': HTMLHocTestElement;
-  }
-  interface ElementTagNameMap {
-    'hoc-test': HTMLHocTestElement;
-  }
-  namespace JSX {
-    interface IntrinsicElements {
-      'hoc-test': JSXElements.HocTestAttributes;
-    }
-  }
-  namespace JSXElements {
-    export interface HocTestAttributes extends HTMLAttributes {
-      'messageData'?: any;
-    }
-  }
-}
-
-
-declare global {
-
-  namespace StencilComponents {
-    interface WithSubscription {
-      'itemname': string;
-      'stores': { [key: string]: any };
-    }
-  }
-
-  interface HTMLWithSubscriptionElement extends StencilComponents.WithSubscription, HTMLStencilElement {}
-
-  var HTMLWithSubscriptionElement: {
-    prototype: HTMLWithSubscriptionElement;
-    new (): HTMLWithSubscriptionElement;
-  };
-  interface HTMLElementTagNameMap {
-    'with-subscription': HTMLWithSubscriptionElement;
-  }
-  interface ElementTagNameMap {
-    'with-subscription': HTMLWithSubscriptionElement;
-  }
-  namespace JSX {
-    interface IntrinsicElements {
-      'with-subscription': JSXElements.WithSubscriptionAttributes;
-    }
-  }
-  namespace JSXElements {
-    export interface WithSubscriptionAttributes extends HTMLAttributes {
-      'itemname'?: string;
-      'stores'?: { [key: string]: any };
-    }
-  }
-}
-
-
-declare global {
-
-  namespace StencilComponents {
     interface MyApp {
 
     }
@@ -191,39 +123,6 @@ declare global {
   namespace JSXElements {
     export interface MyAppAttributes extends HTMLAttributes {
 
-    }
-  }
-}
-
-
-declare global {
-
-  namespace StencilComponents {
-    interface RenderPropTest {
-      'messageData': any;
-    }
-  }
-
-  interface HTMLRenderPropTestElement extends StencilComponents.RenderPropTest, HTMLStencilElement {}
-
-  var HTMLRenderPropTestElement: {
-    prototype: HTMLRenderPropTestElement;
-    new (): HTMLRenderPropTestElement;
-  };
-  interface HTMLElementTagNameMap {
-    'render-prop-test': HTMLRenderPropTestElement;
-  }
-  interface ElementTagNameMap {
-    'render-prop-test': HTMLRenderPropTestElement;
-  }
-  namespace JSX {
-    interface IntrinsicElements {
-      'render-prop-test': JSXElements.RenderPropTestAttributes;
-    }
-  }
-  namespace JSXElements {
-    export interface RenderPropTestAttributes extends HTMLAttributes {
-      'messageData'?: any;
     }
   }
 }

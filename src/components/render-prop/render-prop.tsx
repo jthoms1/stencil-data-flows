@@ -16,7 +16,7 @@ export class RenderProp {
 
   unsubscribeList: Listener[] = [];
 
-  componentWillLoad = function() {
+  componentWillLoad() {
     // subscribe the project's active router and listen
     // for changes. Recompute the match if any updates get
     // pushed
@@ -32,14 +32,18 @@ export class RenderProp {
     this.unsubscribeList.map(unsubscribe => unsubscribe());
   }
 
-  handleChange = (propName: string, data: any) => {
+  handleChange(propName: string, data: any) {
+    console.log(propName, data);
     this.data = {
-      [propName]: data,
-      ...this.data
+      ...this.data,
+      [propName]: data
     };
   }
 
   render() {
-    return this.renderer(this.data);
+    console.log('call renderer with ', this.data);
+    return this.renderer({
+      ...this.data
+    });
   }
 }
