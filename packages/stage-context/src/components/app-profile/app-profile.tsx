@@ -1,6 +1,6 @@
 import { Component, Prop } from '@stencil/core';
 import { MatchResults } from '@stencil/router';
-import { message } from '../../stores/message';
+import Data from '../../context/message';
 
 @Component({
   tag: 'app-profile',
@@ -15,24 +15,21 @@ export class AppProfile {
   @Prop() match: MatchResults;
 
   render() {
-    const stores = {
-      'messageData': message
-    };
-
     if (this.match && this.match.params.name) {
       return (
-        <connect-store stores={stores} renderer={({ messageData }) => (
+        <Data.Consumer>
+          {({ message }) => (
 
           <div class='app-profile'>
-            {console.log('renderer with ', messageData)}
+            {console.log('renderer function with ', message)}
             <p>
-              {messageData ? messageData.message : null} My name is {this.match.params.name}.
+              {message} My name is {this.match.params.name}.
               My name was passed in through a route param!
             </p>
-            <some-component message={messageData.message} />
           </div>
 
-        )} />
+        )}
+        </Data.Consumer>
       );
     }
   }

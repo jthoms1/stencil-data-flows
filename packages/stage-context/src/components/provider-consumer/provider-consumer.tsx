@@ -1,75 +1,50 @@
-import { Component, State, Prop, Watch } from '@stencil/core';
-import { createStore } from '../../stores/index';
-
-export type Listener = () => void;
+import { Component, Prop } from '@stencil/core';
 
 @Component({
   tag: 'context-consumer'
 })
 export class ContextConsumer {
-  @Prop() store: { [key: string]: any } = {};
-  @Prop() renderer: (props: { [key: string]: any }) => any = (props: { [key: string]: any }) => {
+  @Prop() context: { [key: string]: any } = {};
+  @Prop() renderer: any = (props: any ) => {
     props;
     return null;
   };
 
-  @State() data: any = {};
-
-  unsubscribe: Listener;
-
-  componentWillLoad() {
-    // subscribe the project's active router and listen
-    // for changes. Recompute the match if any updates get
-    // pushed
-    this.unsubscribe = this.store.subscribe(this.handleChange.bind(this));
-  }
-
-  componentDidUnload() {
-    // be sure to unsubscribe to the router so that we don't
-    // get any memory leaks
-    this.unsubscribe();
-  }
-
-  handleChange(propName: string, data: any) {
-    console.log(propName, data);
-    this.data = {
-      ...this.data,
-      [propName]: data
-    };
-  }
-
   render() {
     return this.renderer({
-      ...this.data
+      ...this.context
     });
   }
 }
 
-@Component({
-  tag: 'context-provider'
-})
-export class ContextProvider {
-  @Prop() value: { [key: string]: any } = {};
-  @Prop() store: { [key: string]: any } = {};
-  @State() data: any = {};
 
-  componentWillLoad() {
-    this.valueUpdated(this.value);
+export function createProviderConsumer(defaultState: any) {
+  let listeners: HTMLContextConsumerElement[] = [];
+  let currentState = defaultState;
+
+  function notifyConsumers() {
+    listeners.forEach(listener => {
+      listener.context = {
+        ...currentState
+      };
+      listener.forceUpdate();
+    });
   }
 
-  @Watch('value')
-  valueUpdated(newValue: any) {
-    this.store.setValue(newValue);
-  }
-}
-
-const {Provider, Consumer} = createProviderConsumer();
-
-
-function createProviderConsumer(defaultValue = {}) {
-  const store = createStore(defaultValue);
   return {
-    Provider,
-    Consumer
+    Provider: function({ state, children }: any) {
+      currentState = state;
+      notifyConsumers();
+      return children;
+    },
+    Consumer: function({ children }: any) {
+      return (
+        <context-consumer
+          ref={(el: HTMLContextConsumerElement) => listeners.push(el)}
+          renderer={children[0]}
+          context={currentState}
+        />
+      );
+    }
   }
 }

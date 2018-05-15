@@ -131,33 +131,33 @@ declare global {
 declare global {
 
   namespace StencilComponents {
-    interface RenderProp {
-      'renderer': (props: { [key: string]: any }) => any;
-      'stores': { [key: string]: any };
+    interface ContextConsumer {
+      'context': { [key: string]: any };
+      'renderer': any;
     }
   }
 
-  interface HTMLRenderPropElement extends StencilComponents.RenderProp, HTMLStencilElement {}
+  interface HTMLContextConsumerElement extends StencilComponents.ContextConsumer, HTMLStencilElement {}
 
-  var HTMLRenderPropElement: {
-    prototype: HTMLRenderPropElement;
-    new (): HTMLRenderPropElement;
+  var HTMLContextConsumerElement: {
+    prototype: HTMLContextConsumerElement;
+    new (): HTMLContextConsumerElement;
   };
   interface HTMLElementTagNameMap {
-    'render-prop': HTMLRenderPropElement;
+    'context-consumer': HTMLContextConsumerElement;
   }
   interface ElementTagNameMap {
-    'render-prop': HTMLRenderPropElement;
+    'context-consumer': HTMLContextConsumerElement;
   }
   namespace JSX {
     interface IntrinsicElements {
-      'render-prop': JSXElements.RenderPropAttributes;
+      'context-consumer': JSXElements.ContextConsumerAttributes;
     }
   }
   namespace JSXElements {
-    export interface RenderPropAttributes extends HTMLAttributes {
-      'renderer'?: (props: { [key: string]: any }) => any;
-      'stores'?: { [key: string]: any };
+    export interface ContextConsumerAttributes extends HTMLAttributes {
+      'context'?: { [key: string]: any };
+      'renderer'?: any;
     }
   }
 }

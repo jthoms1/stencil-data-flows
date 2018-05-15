@@ -1,20 +1,5 @@
-import { createStore, connect } from './index';
+import { createProviderConsumer } from '../components/provider-consumer/provider-consumer';
 
-export const message = createStore({
+export default createProviderConsumer({
   message: 'Hello!'
 });
-
-let actions = () => ({
-  setMessage: (state, newValue: string) => ({
-    ...state,
-    message: newValue
-  }),
-  clearMessage: (state) => ({
-    ...state,
-    message: ''
-  })
-});
-
-connect(message, actions);
-
-(window as any).messageStore = message;
