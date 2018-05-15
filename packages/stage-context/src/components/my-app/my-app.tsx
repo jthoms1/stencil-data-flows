@@ -1,4 +1,4 @@
-import { Component, State } from '@stencil/core';
+import { Component, State, Prop, Watch } from '@stencil/core';
 
 import Data from '../../context/message';
 
@@ -24,14 +24,19 @@ import Data from '../../context/message';
 })
 export class MyApp {
 
-  @State() message: string = 'Hello!';
+  @Prop() intro: string = 'Hello!';
+  @State() message: string = '';
 
   count: number = 0;
 
+  componentWillLoad() {
+    this.increment();
+  }
+
+  @Watch('intro')
   increment = () => {
     this.count = this.count + 1;
-    this.message = `${this.message} ${this.count}`;
-    console.log(this.message);
+    this.message = `${this.intro} ${this.count}`;
   }
 
   render() {
@@ -40,9 +45,8 @@ export class MyApp {
         <header>
           <h1>Stencil App Starter</h1>
         </header>
-        <button onClick={this.increment}></button>
 
-        <Data.Provider state={{ message: this.message }} >
+        <Data.Provider state={{ message: this.message, increment: this.increment }} >
           <main>
             <stencil-router>
               <stencil-route url='/' component='app-home' exact={true} />

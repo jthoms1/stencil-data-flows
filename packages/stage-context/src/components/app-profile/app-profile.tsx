@@ -18,9 +18,10 @@ export class AppProfile {
     if (this.match && this.match.params.name) {
       return (
         <Data.Consumer>
-          {({ message }) => (
+          {({ message, increment }) => (
 
           <div class='app-profile'>
+            <button onClick={increment}>Increment Num</button>
             {console.log('renderer function with ', message)}
             <p>
               {message} My name is {this.match.params.name}.

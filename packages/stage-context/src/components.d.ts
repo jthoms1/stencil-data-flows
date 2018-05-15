@@ -99,7 +99,7 @@ declare global {
 
   namespace StencilComponents {
     interface MyApp {
-
+      'intro': string;
     }
   }
 
@@ -122,7 +122,7 @@ declare global {
   }
   namespace JSXElements {
     export interface MyAppAttributes extends HTMLAttributes {
-
+      'intro'?: string;
     }
   }
 }
@@ -133,6 +133,7 @@ declare global {
   namespace StencilComponents {
     interface ContextConsumer {
       'context': { [key: string]: any };
+      'listeners': Set<HTMLContextConsumerElement>;
       'renderer': any;
     }
   }
@@ -157,6 +158,7 @@ declare global {
   namespace JSXElements {
     export interface ContextConsumerAttributes extends HTMLAttributes {
       'context'?: { [key: string]: any };
+      'listeners'?: Set<HTMLContextConsumerElement>;
       'renderer'?: any;
     }
   }

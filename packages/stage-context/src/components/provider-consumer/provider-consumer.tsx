@@ -1,14 +1,24 @@
-import { Component, Prop } from '@stencil/core';
+import { Component, Prop, Element } from '@stencil/core';
 
 @Component({
   tag: 'context-consumer'
 })
 export class ContextConsumer {
+  @Element() el: HTMLContextConsumerElement;
   @Prop() context: { [key: string]: any } = {};
   @Prop() renderer: any = (props: any ) => {
     props;
     return null;
   };
+  @Prop() listeners: Set<HTMLContextConsumerElement>;
+
+  componentWillLoad() {
+    this.listeners.add(this.el);
+  }
+
+  componentDidUnload() {
+    this.listeners.delete(this.el);
+  }
 
   render() {
     return this.renderer({
@@ -19,11 +29,12 @@ export class ContextConsumer {
 
 
 export function createProviderConsumer(defaultState: any) {
-  let listeners: HTMLContextConsumerElement[] = [];
+  let listeners = new Set<HTMLContextConsumerElement>();
   let currentState = defaultState;
 
   function notifyConsumers() {
     listeners.forEach(listener => {
+
       listener.context = {
         ...currentState
       };
@@ -40,7 +51,7 @@ export function createProviderConsumer(defaultState: any) {
     Consumer: function({ children }: any) {
       return (
         <context-consumer
-          ref={(el: HTMLContextConsumerElement) => listeners.push(el)}
+          listeners={listeners}
           renderer={children[0]}
           context={currentState}
         />
