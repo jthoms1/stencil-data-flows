@@ -1,4 +1,4 @@
-import { Component, State, Prop, Watch } from '@stencil/core';
+import { Component, State, Prop } from '@stencil/core';
 
 import Data from '../../context/message';
 
@@ -33,7 +33,6 @@ export class MyApp {
     this.increment();
   }
 
-  @Watch('intro')
   increment = () => {
     this.count = this.count + 1;
     this.message = `${this.intro} ${this.count}`;

@@ -28,7 +28,6 @@ export class AppProfile {
               My name was passed in through a route param!
             </p>
           </div>
-
         )}
         </Data.Consumer>
       );
