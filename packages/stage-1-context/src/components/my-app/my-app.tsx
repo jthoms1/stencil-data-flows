@@ -45,7 +45,7 @@ export class MyApp {
           <h1>Stencil App Starter</h1>
         </header>
 
-        <Data.Provider state={{ message: this.message, increment: this.increment }} >
+        <Data.Provider state={{ message: this.message, increment: this.increment }}>
           <main>
             <stencil-router>
               <stencil-route url='/' component='app-home' exact={true} />
