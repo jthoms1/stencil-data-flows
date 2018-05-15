@@ -1,6 +1,7 @@
 import { createStore } from './index';
 
 export const message = createStore({
+  name: 'messageData',
   defaultState: {
     message: 'Hello!'
   },

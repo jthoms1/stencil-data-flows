@@ -3,9 +3,9 @@ import { Component, State, Prop } from '@stencil/core';
 export type Listener = () => void;
 
 @Component({
-  tag: 'render-prop'
+  tag: 'connect-store'
 })
-export class RenderProp {
+export class ConnectStore {
   @Prop() stores: { [key: string]: any } = {};
   @Prop() renderer: (props: { [key: string]: any }) => any = (props: { [key: string]: any }) => {
     props;

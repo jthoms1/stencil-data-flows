@@ -4,7 +4,11 @@ import { message } from '../../stores/message';
 
 @Component({
   tag: 'app-profile',
-  styleUrl: 'app-profile.css'
+  styles: `
+    .app-profile {
+      padding: 10px;
+    }
+  `
 })
 export class AppProfile {
 
@@ -17,14 +21,17 @@ export class AppProfile {
 
     if (this.match && this.match.params.name) {
       return (
-        <render-prop stores={stores} renderer={({ messageData }) => (
+        <connect-store stores={stores} renderer={({ messageData }) => (
+
           <div class='app-profile'>
             {console.log('renderer with ', messageData)}
             <p>
               {messageData ? messageData.message : null} My name is {this.match.params.name}.
               My name was passed in through a route param!
             </p>
+            <some-component message={messageData.message} />
           </div>
+
         )} />
       );
     }
