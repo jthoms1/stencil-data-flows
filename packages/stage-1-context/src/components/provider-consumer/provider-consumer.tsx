@@ -1,23 +1,25 @@
-import { Component, Prop, Element } from '@stencil/core';
+import { Component, Prop, State, Element } from '@stencil/core';
 
 @Component({
   tag: 'context-consumer'
 })
 export class ContextConsumer {
   @Element() el: HTMLContextConsumerElement;
+
   @Prop() context: { [key: string]: any } = {};
   @Prop() renderer: any = (props: any ) => {
     props;
     return null;
   };
-  @Prop() listeners:  Map<HTMLContextConsumerElement, string[] | null>;
+  @Prop() subscribe: (el: HTMLStencilElement, props: string[] | string) => () => void
+  @State() unsubscribe: () => void;
 
   componentWillLoad() {
-    this.listeners.set(this.el, null);
+    this.unsubscribe = this.subscribe(this.el, 'context');
   }
 
   componentDidUnload() {
-    this.listeners.delete(this.el);
+    this.unsubscribe();
   }
 
   render() {
@@ -27,61 +29,77 @@ export class ContextConsumer {
   }
 }
 
-export function createProviderConsumer(defaultState: any) {
-  let listeners: Map<HTMLContextConsumerElement, string[] | null> = new Map();
-  let currentState = defaultState;
+export function createProviderConsumer<T extends object>(defaultState: T) {
+  type PropList = (keyof T)[] | string;
+
+  let listeners: Map<HTMLStencilElement, PropList> = new Map();
+  let currentState: T = defaultState;
 
   function notifyConsumers() {
     listeners.forEach(updateListener)
   }
 
-  function updateListener(fields, listener) {
-
-    console.log(fields, listener);
-    if (fields != null) {
+  function updateListener(fields: PropList, listener) {
+    if (Array.isArray(fields)) {
       [...fields].forEach(fieldName => {
         listener[fieldName] = currentState[fieldName];
       });
     } else {
-      listener.context = {
-        ...currentState
-      };
+      listener[fields] = {
+        ...currentState as object
+      } as T;
     }
     listener.forceUpdate();
   }
 
-  function attachListener(propList: string[] = null) {
-    return (el: HTMLElement) => {
-      listeners.set(el as HTMLContextConsumerElement, propList);
+  function attachListener(propList: PropList) {
+    return (el: HTMLStencilElement) => {
+      if (listeners.has(el)) {
+        return;
+      }
+      listeners.set(el, propList);
       updateListener(propList, el);
     }
   }
 
-  return {
-    Provider: function({ state, children }: any) {
-      currentState = state;
-      notifyConsumers();
-      return children;
-    },
-    Consumer: function({ children }: any) {
-      return (
-        <context-consumer
-          listeners={listeners}
-          renderer={children[0]}
-          context={currentState}
-        />
-      );
-    },
-    WrapConsumer: function(childComponent: any, fieldList: string[] = []) {
-      const Child = childComponent.is;
-
-      return ({ children, ...props}: any ) => {
-        return (
-          <Child ref={attachListener(fieldList)} {...props}>
-            { children }
-          </Child>
-        );
-      };
+  function subscribe(el: HTMLStencilElement, propList: PropList) {
+    attachListener(propList)(el);
+    return function() {
+      listeners.delete(el);
     }
+  }
+
+  function Provider({ state, children }: { state: T, children?: any[]}) {
+    currentState = state;
+    notifyConsumers();
+    return children;
+  }
+
+  function Consumer({ children }: any) {
+    return (
+      <context-consumer
+        subscribe={subscribe}
+        renderer={children[0]}
+      />
+    );
+  }
+
+  function wrapConsumer(childComponent: any, fieldList: PropList) {
+    const Child = childComponent.is;
+
+    return ({ children, ...props}: any ) => {
+      return (
+        <Child ref={attachListener(fieldList)} {...props}>
+          { children }
+        </Child>
+      );
+    };
+  }
+
+  return {
+    Provider,
+    Consumer,
+    wrapConsumer,
+    subscribe
   }
 }

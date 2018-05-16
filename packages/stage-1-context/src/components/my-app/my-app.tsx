@@ -1,7 +1,7 @@
 import { Component, State, Prop } from '@stencil/core';
-
-import { WrappedAppProfileCmp } from '../app-profile/app-profile';
+import { RouterSwitch } from '@stencil/router';
 import Data from '../../context/message';
+import { WrappedAppProfileCmp } from '../app-profile/wrapped-app-profile';
 
 @Component({
   tag: 'my-app',
@@ -45,16 +45,17 @@ export class MyApp {
         <header>
           <h1>Stencil App Starter</h1>
         </header>
-
-        <Data.Provider state={{ message: this.message, increment: this.increment }}>
-          <WrappedAppProfileCmp/>
-          <main>
+        <main>
+          <Data.Provider state={{ message: this.message, increment: this.increment }}>
             <stencil-router>
-              <stencil-route url='/' component='app-home' exact={true} />
-              <stencil-route url='/profile/:name' component='app-profile' />
+              <WrappedAppProfileCmp/>
+              <RouterSwitch>
+                <stencil-route url='/' component='app-home' exact={true}></stencil-route>
+                <stencil-route url='/profile' component='app-profile'></stencil-route>
+              </RouterSwitch>
             </stencil-router>
-          </main>
-        </Data.Provider>
+          </Data.Provider>
+        </main>
       </div>
     );
   }

@@ -62,6 +62,39 @@ declare global {
 declare global {
 
   namespace StencilComponents {
+    interface AppProfile {
+
+    }
+  }
+
+  interface HTMLAppProfileElement extends StencilComponents.AppProfile, HTMLStencilElement {}
+
+  var HTMLAppProfileElement: {
+    prototype: HTMLAppProfileElement;
+    new (): HTMLAppProfileElement;
+  };
+  interface HTMLElementTagNameMap {
+    'app-profile': HTMLAppProfileElement;
+  }
+  interface ElementTagNameMap {
+    'app-profile': HTMLAppProfileElement;
+  }
+  namespace JSX {
+    interface IntrinsicElements {
+      'app-profile': JSXElements.AppProfileAttributes;
+    }
+  }
+  namespace JSXElements {
+    export interface AppProfileAttributes extends HTMLAttributes {
+
+    }
+  }
+}
+
+
+declare global {
+
+  namespace StencilComponents {
     interface WrappedAppProfile {
       'increment': (event: MouseEvent) => void;
       'message': string;
@@ -132,8 +165,8 @@ declare global {
   namespace StencilComponents {
     interface ContextConsumer {
       'context': { [key: string]: any };
-      'listeners': Map<HTMLContextConsumerElement, string[] | null>;
       'renderer': any;
+      'subscribe': (el: HTMLStencilElement, props: string[] | string) => () => void;
     }
   }
 
@@ -157,8 +190,8 @@ declare global {
   namespace JSXElements {
     export interface ContextConsumerAttributes extends HTMLAttributes {
       'context'?: { [key: string]: any };
-      'listeners'?: Map<HTMLContextConsumerElement, string[] | null>;
       'renderer'?: any;
+      'subscribe'?: (el: HTMLStencilElement, props: string[] | string) => () => void;
     }
   }
 }

@@ -1,5 +1,10 @@
 import { createProviderConsumer } from '../components/provider-consumer/provider-consumer';
 
-export default createProviderConsumer({
+export interface State {
+  message: string,
+  increment?: () => void
+}
+
+export default createProviderConsumer<State>({
   message: 'Hello!'
 });
