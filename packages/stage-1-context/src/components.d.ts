@@ -25,9 +25,6 @@ declare global {
 
 import '@stencil/router';
 
-import {
-  MatchResults,
-} from '@stencil/router';
 
 declare global {
 
@@ -65,31 +62,33 @@ declare global {
 declare global {
 
   namespace StencilComponents {
-    interface AppProfile {
-      'match': MatchResults;
+    interface WrappedAppProfile {
+      'increment': (event: MouseEvent) => void;
+      'message': string;
     }
   }
 
-  interface HTMLAppProfileElement extends StencilComponents.AppProfile, HTMLStencilElement {}
+  interface HTMLWrappedAppProfileElement extends StencilComponents.WrappedAppProfile, HTMLStencilElement {}
 
-  var HTMLAppProfileElement: {
-    prototype: HTMLAppProfileElement;
-    new (): HTMLAppProfileElement;
+  var HTMLWrappedAppProfileElement: {
+    prototype: HTMLWrappedAppProfileElement;
+    new (): HTMLWrappedAppProfileElement;
   };
   interface HTMLElementTagNameMap {
-    'app-profile': HTMLAppProfileElement;
+    'wrapped-app-profile': HTMLWrappedAppProfileElement;
   }
   interface ElementTagNameMap {
-    'app-profile': HTMLAppProfileElement;
+    'wrapped-app-profile': HTMLWrappedAppProfileElement;
   }
   namespace JSX {
     interface IntrinsicElements {
-      'app-profile': JSXElements.AppProfileAttributes;
+      'wrapped-app-profile': JSXElements.WrappedAppProfileAttributes;
     }
   }
   namespace JSXElements {
-    export interface AppProfileAttributes extends HTMLAttributes {
-      'match'?: MatchResults;
+    export interface WrappedAppProfileAttributes extends HTMLAttributes {
+      'increment'?: (event: MouseEvent) => void;
+      'message'?: string;
     }
   }
 }
@@ -133,7 +132,7 @@ declare global {
   namespace StencilComponents {
     interface ContextConsumer {
       'context': { [key: string]: any };
-      'listeners': Set<HTMLContextConsumerElement>;
+      'listeners': Map<HTMLContextConsumerElement, string[] | null>;
       'renderer': any;
     }
   }
@@ -158,7 +157,7 @@ declare global {
   namespace JSXElements {
     export interface ContextConsumerAttributes extends HTMLAttributes {
       'context'?: { [key: string]: any };
-      'listeners'?: Set<HTMLContextConsumerElement>;
+      'listeners'?: Map<HTMLContextConsumerElement, string[] | null>;
       'renderer'?: any;
     }
   }

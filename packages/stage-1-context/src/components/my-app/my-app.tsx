@@ -1,5 +1,6 @@
 import { Component, State, Prop } from '@stencil/core';
 
+import { WrappedAppProfileCmp } from '../app-profile/app-profile';
 import Data from '../../context/message';
 
 @Component({
@@ -46,6 +47,7 @@ export class MyApp {
         </header>
 
         <Data.Provider state={{ message: this.message, increment: this.increment }}>
+          <WrappedAppProfileCmp/>
           <main>
             <stencil-router>
               <stencil-route url='/' component='app-home' exact={true} />

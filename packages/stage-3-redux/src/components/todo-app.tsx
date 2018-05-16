@@ -1,7 +1,12 @@
 import { Component } from '@stencil/core';
+import { createStore } from 'redux';
+import rootReducer from '../reducers';
+import { Provider } from '../stencil-redux';
+
+const store = createStore(rootReducer);
 
 @Component({
-  tag: 'my-app',
+  tag: 'todo-app',
   styles: `
     header {
       background: #5851ff;
@@ -20,22 +25,12 @@ import { Component } from '@stencil/core';
     }
   `
 })
-export class MyApp {
+export class TodoApp {
 
   render() {
     return (
-      <div>
-        <header>
-          <h1>Stencil App Starter</h1>
-        </header>
-
-        <main>
-          <stencil-router>
-            <stencil-route url='/' component='app-home' exact={true} />
-            <stencil-route url='/profile/:name' component='app-profile' />
-          </stencil-router>
-        </main>
-      </div>
+      <Provider store={store}>
+      </Provider>
     );
   }
 }

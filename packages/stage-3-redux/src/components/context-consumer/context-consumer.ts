@@ -10,10 +10,10 @@ export class ContextConsumer {
     props;
     return null;
   };
-  @Prop() listeners:  Map<HTMLContextConsumerElement, string[] | null>;
+  @Prop() listeners: Set<HTMLContextConsumerElement>;
 
   componentWillLoad() {
-    this.listeners.set(this.el, null);
+    this.listeners.add(this.el);
   }
 
   componentDidUnload() {
@@ -27,34 +27,19 @@ export class ContextConsumer {
   }
 }
 
+
 export function createProviderConsumer(defaultState: any) {
-  let listeners: Map<HTMLContextConsumerElement, string[] | null> = new Map();
+  let listeners = new Set<HTMLContextConsumerElement>();
   let currentState = defaultState;
 
   function notifyConsumers() {
-    listeners.forEach(updateListener)
-  }
+    listeners.forEach(listener => {
 
-  function updateListener(fields, listener) {
-
-    console.log(fields, listener);
-    if (fields != null) {
-      [...fields].forEach(fieldName => {
-        listener[fieldName] = currentState[fieldName];
-      });
-    } else {
       listener.context = {
         ...currentState
       };
-    }
-    listener.forceUpdate();
-  }
-
-  function attachListener(propList: string[] = null) {
-    return (el: HTMLElement) => {
-      listeners.set(el as HTMLContextConsumerElement, propList);
-      updateListener(propList, el);
-    }
+      listener.forceUpdate();
+    });
   }
 
   return {
@@ -71,17 +56,6 @@ export function createProviderConsumer(defaultState: any) {
           context={currentState}
         />
       );
-    },
-    WrapConsumer: function(childComponent: any, fieldList: string[] = []) {
-      const Child = childComponent.is;
-
-      return ({ children, ...props}: any ) => {
-        return (
-          <Child ref={attachListener(fieldList)} {...props}>
-            { children }
-          </Child>
-        );
-      };
     }
   }
 }
